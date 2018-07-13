@@ -7,7 +7,7 @@ router.get("/dashboard", ensureLoggedIn("/login"), (req, res, next) => {
   res.render("laundry/dashboard");
 });
 
-router.post("/launderers", (req, res, next) => {
+router.post("/launderers", ensureLoggedIn("/login"), (req, res, next) => {
   const userId = req.user._id;
   const { fee } = req.body;
 
@@ -21,4 +21,13 @@ router.post("/launderers", (req, res, next) => {
     });
 });
 
+router.get("/launderers", ensureLoggedIn("/login"), (req, res, next) => {
+  User.find({ isLaunderer: true, _id: {$ne: req.user._id}})
+  .then(launderers => {
+    res.render("laundry/launderers", {launderers})
+  })
+  .catch(err => {
+    next(err);
+  })
+});
 module.exports = router;
