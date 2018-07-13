@@ -1,8 +1,12 @@
 <h2> Your laundry Dashboard </h2>
 
 <ul>
-  <li> <a href="/launderers"> Find a Launderer </a> </li>
-  <li> <a href="/logout"> Log Out </a> </li>
+  <li>
+    <a href="/launderers"> Find a Launderer </a>
+  </li>
+  <li>
+    <a href="/logout"> Log Out </a>
+  </li>
 </ul>
 
 {{#if successMessage}}
@@ -32,3 +36,22 @@
   <button> Become a launderer </button>
 </form>
 {{/if}}
+
+{{#if pickups}}
+<h3>Pending Pickups</h3>
+<ul>
+  {{#each pickups}}
+  <li>
+    <h4>{{pickupDate}}</h4>
+    <ul>
+      <li>
+        <b>User:</b> {{user.name}}
+      </li>
+      <li>
+        <b>Launderer:</b> {{launderer.name}}
+      </li>
+    </ul>
+  </li>
+  {{/each}}
+</ul>
+{{/if }}

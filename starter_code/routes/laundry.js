@@ -5,7 +5,26 @@ const User = require("../models/User");
 const LaundryPickup = require("../models/Laundry-pickup");
 
 router.get("/dashboard", ensureLoggedIn("/login"), (req, res, next) => {
-  res.render("laundry/dashboard");
+  let query;
+  if(req.user.isLaunderer){
+    query = {launderer: req.user._id};
+  } else {
+    query = {user: req.user._id};
+  }
+  LaundryPickup
+  .find(query)
+  .populate('user', 'name')
+  .populate('launderer', 'name')
+  .sort('pickupDate')
+  .exec()
+  .then(pickupList => {
+    res.render("laundry/dashboard", {
+      pickups: pickupList
+    })
+  })
+  .catch(err => {
+    next(err);
+  })
 });
 
 router.post("/launderers", ensureLoggedIn("/login"), (req, res, next) => {
