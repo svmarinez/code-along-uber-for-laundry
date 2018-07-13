@@ -8,10 +8,14 @@
 
 <h3> Want to become a launderer? </h3>
 
+{{#if successMessage}}
+<p>{{successMessage}}</p>
+{{/if}}
+
 <form action="/launderers" method="post">
   <div>
     <label for="fee-input"> Set your fee </label>
-    <input type="number" name="fee" id="fee-input">
+    <input type="number" name="fee" id="fee-input" value="{{user.fee}}">
   </div>
 
   <button> Become a Launderer </button>

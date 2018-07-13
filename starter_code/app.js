@@ -38,9 +38,10 @@ app.use(expressSession({
   resave: true,
   saveUninitialized: true,
   store: new MongoStore( { mongooseConnection: mongoose.connection, ttl: 24*60*60 })
-}))
+}));
 app.use(flash());
 require('./passport')(app);
+
 // Express View engine setup
 
 // app.use(require('node-sass-middleware')({
@@ -61,6 +62,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use((req, res, next) => {
   res.locals.title = 'Express - Generated with IronGenerator';
   res.locals.errorMessage = req.flash("error");
+  res.locals.successMessage = req.flash("success");
   res.locals.user = req.user;
   next();
 });
@@ -70,6 +72,8 @@ const index = require('./routes/index');
 app.use('/', index);
 const authRouter = require('./routes/auth');
 app.use('/', authRouter);
+const laundryRouter = require('./routes/laundry');
+app.use('/', laundryRouter);
 
 
 module.exports = app;
